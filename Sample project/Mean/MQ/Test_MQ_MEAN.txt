@@ -1,0 +1,65 @@
+# MQ-EBLUP
+source("MQ_FUNCTION_MEAN.R")
+
+library(pps)
+sigmasq.u=3
+sigmasq=6
+NoSim<-500m=40
+
+ni=rep(5,m)
+Ni=rep(100,m)
+N=sum(Ni)
+n=sum(ni)
+
+# out.e=0.03 (if outliers in e with contamination 3%) and out.e=0 (if no outliers in e)
+
+set.seed(1973)
+
+out.u=0
+out.e=0
+
+u=rnorm(m,0,sqrt(sigmasq.u))
+mean.u=9
+uu <- u
+k1 <- as.integer(.1 * m) 	# k1 = no. of outliers in v
+u1 <- rnorm(k1, mean.u, sqrt(20))
+uu[(m-k1+1):m] <- u1
+
+out.u <- rep(out.u, m)
+u <- ifelse(out.u > 0, uu, u)
+
+u=rep(u,each=100)
+
+n1<-rbinom(N,1,out.e)
+mean.e<-20
+e <- (1-n1)*rnorm(N, 0, sqrt(sigmasq))+n1*rnorm(N, mean.e, sqrt(150))
+
+gr=rep(1:40,each=100)
+
+ar=unique(gr)
+
+uno=matrix(c(rlnorm(N,log(4.5)-0.5,0.5)),nrow=N,ncol=1)
+
+y=100+5*uno+u+e
+
+pop.matrix<-cbind(y,uno,gr)
+pop<-as.data.frame(pop.matrix)
+names(pop)<-c("y","x","area")
+# Drawing a sample
+s<-stratsrs(pop$area,ni)
+
+
+#Estimation procedure
+x.lme=pop[s,]$x
+y.lme=pop[s,]$y
+regioncode.lme=pop[s,]$area
+pop.r<-pop[-s,]
+
+
+################
+#MQuantile Mean#
+################
+tmp<-mq_function(y=y.lme,x=x.lme,regioncode.s=regioncode.lme,m=40,p=2,x.outs=pop.r[,2],regioncode.r=pop.r[,3],tol.value=0.0001,maxit.value=100,k.value=1.345)
+
+tmp
+

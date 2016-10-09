@@ -1,0 +1,11 @@
+Package: MQRE
+Title: M-quantile random effects
+Version: 0.1
+Date: 2015-03-16
+Author: Timo Schmid, Nicola Salvati and Nikos Tzavidis
+Maintainer: Timo Schmid <timo.schmid@fu-berlin.de>
+Description: Provides estimates using M-quantile random effects regression
+License: GPL (>= 2)
+Depends: Rcpp (>= 0.10.6), MASS, nlme, lme4, RcppArmadillo
+LinkingTo: Rcpp, RcppArmadillo
+Packaged: 2015-03-17 09:05:49 UTC; schmidtimo

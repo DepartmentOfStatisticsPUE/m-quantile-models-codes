@@ -1,0 +1,10 @@
+Package: BinaryMQ
+Type: Package
+Title: BinaryMQ
+Version: 1.0
+Date: 2012-07-14
+Author: Nicola Salvati, Ray Chambers, Nikos Tzavidis
+Maintainer: Nicola Salvati <salvati@ec.unipi.it>
+Description: glm M-quantile regression for Binary Data
+License: GPL (>= 2)
+Packaged: 2013-02-27 16:25:28 UTC; nicolasalvati
